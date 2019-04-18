@@ -160,6 +160,8 @@ all: headers objects disasm libs tests
 # Shared utility code
 $(eval $(call tgt_include_header,src/share/util.h,.))
 HEADERS += $(call map_include,src/share/util.h,.)
+$(eval $(call tgt_include_header,src/share/xdivinsa.h,.))
+HEADERS += $(call map_include,src/share/xdivinsa.h,.)
 
 include src/mp/Makefile.in
 #include src/sha1/Makefile.in

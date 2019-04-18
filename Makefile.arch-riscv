@@ -31,7 +31,7 @@ ASMCONF =$(subst -D, --defsym , $(addsuffix =1,$(CONF)))
 
 CFLAGS    += -mabi=$(ARCH_ABI) -march=$(ARCH_SUBSET)
 
-GCC_PREFIX = $(RISCV)/bin/riscv32-unknown-elf-
+GCC_PREFIX = $(RISCV)/bin/riscv64-unknown-elf-
 GCC_PATHS  =
 CFLAGS    += ${CONF} -Wall -O2
 ASFLAGS    = -mabi=$(ARCH_ABI) -march=$(ARCH_SUBSET) ${ASMCONF}
