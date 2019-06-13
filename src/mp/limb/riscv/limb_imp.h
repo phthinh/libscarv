@@ -8,15 +8,13 @@ typedef uint32_t  limb_t;
 typedef uint64_t dlimb_t;
 
 //  r_1*2^w + r_0  = e+f
-#if defined(XDIVINSA)    || defined(XDIVINSA_T0) || \
-       defined(XDIVINSA_T1) || defined(XDIVINSA_T2) || \
-       defined(XDIVINSA_T3) || defined(XDIVINSA_T4)  || \
-       defined(XDIVINSA_T5)
-#define LIMB_ADD0(r_1,r_0,e,f)     {                          \
+//#if defined(XDIVINSA)    
+
+//#define LIMB_ADD0(r_1,r_0,e,f)     {                          \
   xadd1(r_1,r_0,e,f);                                        \
 }
 
-#else
+//#else
 #define LIMB_ADD0(r_1,r_0,e,f)     {                          \
   dlimb_t __t  = ( dlimb_t )( e ) +                           \
                  ( dlimb_t )( f ) ;                           \
@@ -24,8 +22,7 @@ typedef uint64_t dlimb_t;
   r_0 =       ( limb_t )( __t >> 0                );          \
   r_1 = 0x1 & ( limb_t )( __t >> BITSOF( limb_t ) );          \
 }
-
-#endif
+//#endif
 
 
 //  r_1*2^w + r_0  = e+f+g
@@ -114,11 +111,9 @@ typedef uint64_t dlimb_t;
 }
 
 //  r_1*2^w + r_0  = e*f+g+h
-#if defined(XDIVINSA)    || defined(XDIVINSA_T0) || \
-       defined(XDIVINSA_T1) || defined(XDIVINSA_T2) || \
-       defined(XDIVINSA_T3) || defined(XDIVINSA_T4)  || \
-       defined(XDIVINSA_T5)
-#define LIMB_MUL2(r_1,r_0,e,f,g,h) {                          \
+#if defined(XDIVINSA)   
+
+//#define LIMB_MUL2(r_1,r_0,e,f,g,h) {                          \
   dlimb_t __t,__ta;                                           \
   xmul2(__t, e,f);                                            \
   xadd2(__ta,g,h);                                            \
@@ -126,7 +121,14 @@ typedef uint64_t dlimb_t;
   r_0  =       ( limb_t )( __t >> 0                );         \
   r_1  =       ( limb_t )( __t >> BITSOF( limb_t ) );         \
 }     
-
+#define LIMB_MUL2(r_1,r_0,e,f,g,h) {                          \
+  dlimb_t __t,__ta;                                           \
+  xmul2(__t, e,f);                                            \
+  __ta = ( dlimb_t )( g ) + ( dlimb_t )( h ) ;                \
+  __t +=     __ta;                                            \
+  r_0  =       ( limb_t )( __t >> 0                );         \
+  r_1  =       ( limb_t )( __t >> BITSOF( limb_t ) );         \
+} 
 #else
 #define LIMB_MUL2(r_1,r_0,e,f,g,h) {                          \
   dlimb_t __t  = ( dlimb_t )( e ) *                           \
